@@ -45,7 +45,7 @@ export class SupervisorProductoComponent implements OnInit {
   }
 
   verDetalles(id:string){
-    const modal =  this.modalService.open(SupervisorProductoDetalleComponent);
+    const modal =  this.modalService.open(SupervisorProductoDetalleComponent, { size: 'lg' });
 
     const modalInstance = modal.componentInstance;
 
@@ -72,7 +72,7 @@ export class SupervisorProductoComponent implements OnInit {
  }
 
  rechazarDetalle(id:string){
-  const modal =  this.modalService.open(SupervisorProductoRechazoDetalleComponent);
+  const modal =  this.modalService.open(SupervisorProductoRechazoDetalleComponent, {centered: true});
 
   const modalInstance = modal.componentInstance;
 
@@ -87,7 +87,7 @@ export class SupervisorProductoComponent implements OnInit {
   if(state == ESTADOS_PRODUCTO[3]){
     alert('Tiene un producto en subsanación')
   }else{
-    const modal =  this.modalService.open(SupervisorProductoSubsanarDetalleComponent);
+    const modal =  this.modalService.open(SupervisorProductoSubsanarDetalleComponent, {centered: true});
 
     const modalInstance = modal.componentInstance;
   

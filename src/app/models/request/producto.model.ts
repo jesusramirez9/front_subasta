@@ -6,4 +6,5 @@ export class Producto {
     category?: string;
     state?: any;
     imgs?: string[] = [];
+    fecha_registro?: string;
 }

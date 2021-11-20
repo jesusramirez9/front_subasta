@@ -54,9 +54,9 @@
                   <td>{{producto.name}}</td>
                   <td>{{producto.user.name}}</td>
                   <td>{{producto.user.dni}}</td>
-                  <td>3/12/2020</td>
+                  <td>{{producto.fecha_registro | date}}</td>
                   <td>{{producto.state}}</td>
-                  <td><button class="btn btn-light" (click)="verHistorialDetalle(producto._id)">ver Historial</button></td>   
+                  <td><button class="btn btn-light" (click)="verHistorialDetalle(producto._id)">Ver Historial</button></td>   
                 </tr>
               </tbody>
             </table>

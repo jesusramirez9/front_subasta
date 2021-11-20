@@ -46,7 +46,7 @@ export class SupervisorProductoHistorialComponent implements OnInit {
   }
 
   verHistorialDetalle(id:string){
-    const modal =  this.modalService.open(SupervisorProductoHistorialDetalleComponent);
+    const modal =  this.modalService.open(SupervisorProductoHistorialDetalleComponent, {size: 'lg', centered: true});
 
     const modalInstance = modal.componentInstance;
 

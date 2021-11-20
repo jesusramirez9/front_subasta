@@ -7,8 +7,8 @@
             <!-- <p class="card-subtitulo">Todavía no has pujado por este lote.</p> -->
         </div>
         <div class="card-body py-3">
-            <h4 class="card-body-title mb-0">Puja actual: <span style="font-weight: 400;">{{pujaActualTemporal}}</span></h4>
-            <h4 class="card-body-title mb-0">Comprador: <span style="font-weight: 400;">{{compradorTemporal}}</span></h4>
+            <h4 class="card-body-title mb-0">Puja actual: <span style="font-weight: 400;">{{pujaActualTemporal ? pujaActualTemporal : '---'}}</span></h4>
+            <h4 class="card-body-title mb-0">Comprador: <span style="font-weight: 400;">{{compradorTemporal ? compradorTemporal : '---'}}</span></h4>
         </div>
         <div class="card-body py-3">
             <h4 class="card-body-title mb-0">Precio actual: <span style="font-weight: 400;">{{precioActualTemporal}}</span></h4>
@@ -42,6 +42,9 @@
                         <td>{{puj.comprador.name}}</td>
                         <td>{{puj.dia | date: 'dd-MM-yyyy'}} {{puj.hora}}</td>
                         <td>S/{{puj.monto}}</td>
+                    </tr>
+                    <tr *ngIf="arrayPujas.length == 0">
+                        <th colspan="3">Aún no hay registro de pujas.</th>
                     </tr>
                 </tbody>
             </table>
