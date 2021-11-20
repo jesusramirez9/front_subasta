@@ -18,8 +18,8 @@ export class ShippingComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('productoMod')) {
       this.productEmiter.shippingSubjectChanged$.subscribe(data => {
-      const shipping = data[0].shipping;
-      console.log(shipping)
+      console.log(data);
+        const shipping = data.dataShipping;
         if (shipping.pagaEnvio === "" || shipping.pagaEnvio === null) {
           this.shippingData = '0';
         }

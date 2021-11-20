@@ -40,6 +40,7 @@ export class ReviewerComponent implements OnInit {
       this.files = data;
       if (data && data.length > 0) {
         this.previewFirstImage = data[0];
+        this.imagenTemp = this.previewFirstImage;
         let reader = new FileReader();
         let urlImgTemp = reader.readAsDataURL(this.previewFirstImage);
         reader.onloadend = () => {
@@ -93,7 +94,6 @@ export class ReviewerComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.pupulateData();
-          console.log(this.request, this.files)
           this.productoService.updateProduct(this.request, this.files).subscribe(data => {
             this.router.navigate(['/home'])
             this.nf.notification("success", {
@@ -111,7 +111,6 @@ export class ReviewerComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.pupulateData();
-          console.log(this.request, this.files)
           this.productoService.saveProduct(this.request, this.files).subscribe(data => {
             this.router.navigate(['/home'])
             this.nf.notification("success", {

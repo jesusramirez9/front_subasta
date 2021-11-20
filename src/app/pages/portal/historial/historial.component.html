@@ -114,17 +114,17 @@
         <h4 *ngIf="productShow.state==='RECHAZADO'" class="modal-title pull-left"><b>Motivo de rechazo del producto</b>
         </h4>
         <h4 *ngIf="productShow.state==='POR SUBSANAR'" class="modal-title pull-left"><b>Motivo de subsanación del
-                producto</b></h4>
+            producto</b></h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div *ngIf="productShow.state==='RECHAZADO'" class="alert alert-danger" role="alert">
-            <p>{{productShow.motivo_rechazo}}</p>
-        </div>
-        <div *ngIf="productShow.state==='POR SUBSANAR'" class="alert alert-warning" role="alert">
-            <p>{{productShow.motivo_subsanacion}}</p>
-        </div>
+    <div *ngIf="productShow.state==='RECHAZADO'" class="alert alert-danger" role="alert">
+        <p>{{productShow.motivo_rechazo}}</p>
+    </div>
+    <div *ngIf="productShow.state==='POR SUBSANAR'" class="alert alert-warning" role="alert">
+        <p>{{productShow.motivo_subsanacion}}</p>
+    </div>
     </div>
 </ng-template>
