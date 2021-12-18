@@ -17,7 +17,7 @@ export class ReporteService {
     }
 
     getAuctionXDate(fechaInicio: string, fechaFin: string) {
-        const url = `${environment.API_SUBASTA}/api/reportes/monto/${fechaInicio}/${fechaFin}`;
+        const url = `${environment.API_SUBASTA}/api/reportes/monto`;
         return this.http.get(url, { headers: { 'x-token': this.ls.getData('token') } });
     }
 

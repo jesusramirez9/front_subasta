@@ -71,12 +71,15 @@ export class InfoDetailComponent implements OnInit {
 
   obtenerPujasSubasta(){
     this.subastaService.obtenerPujasSubasta(this.idSubasta).subscribe((data: any) => {
-      this.arrayPujas = data['pujas'];
-      this.precioActualTemporal = data['precioTemp'];
-      this.compradorTemporal = data['pujas'][this.arrayPujas.length - 1]['comprador'].name;
-      this.pujaActualTemporal = data['pujas'][this.arrayPujas.length - 1].monto;
-      this.idComprador = data['pujas'][this.arrayPujas.length - 1]['comprador']._id;
-    })
+      console.log(data);
+      this.arrayPujas = data.pujas;
+      this.precioActualTemporal = data.precioTemp;
+      if(this.arrayPujas.length != 0){
+        this.compradorTemporal = data.pujas[this.arrayPujas.length - 1]['comprador'].name;
+        this.pujaActualTemporal = data.pujas[this.arrayPujas.length - 1].monto;
+        this.idComprador = data.pujas[this.arrayPujas.length - 1]['comprador']._id;
+      }
+    });
   }
 
   puja50(){

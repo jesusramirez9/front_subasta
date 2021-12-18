@@ -46,7 +46,7 @@ export class HistorialSubastasComponent implements OnInit, AfterViewInit {
   obtenerSubastas(): void {
     this.enableSpinner = true;
     this.reporteService.getSubastasXUser().subscribe((data: any) => {
-      console.log(data.data[5].pujas)
+      console.log(data);
       this.enableSpinner = false;
       let elementos = [];
       data.data.forEach((el, index) => {
