@@ -10,7 +10,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-left mt-3" >
+                <div class="card-body text-left pt-0">
                     <button (click)="verTabla(template)" class="btn font-5 btn-primary">Ver tabla de inhabilitados</button>
                 </div>
                 <div class="table-responsive">
@@ -38,7 +38,7 @@
                                 <td *ngIf="client.state">Habilitado</td>
                                 <td *ngIf="!client.state">Inhabilitado</td>
                                 <div *ngIf="client.state; else eliminado;">
-                                    <td><button (click)="inhabilitar(client._id)" class="btn btn-danger">Inhabilitar</button></td>
+                                    <td><button (click)="inhabilitar(client._id, modalRechazo)" class="btn btn-danger">Inhabilitar</button></td>
                                 </div>
                                 <ng-template #eliminado>
                                     <div>
@@ -55,7 +55,7 @@
 </div>
 
 <ng-template #template>
-    <div class="p-3 mat-elevation-z8 mb-5" *ngIf="!enableSpinner" [class.mt-5]="inhabilitados.length == 0">
+    <div class="p-3 mat-elevation-z8" *ngIf="!enableSpinner" [class.mt-5]="inhabilitados.length == 0">
         
         <h1>Lista de sancionados</h1>
         <table mat-table [dataSource]="dataSource" matSort>
@@ -90,6 +90,12 @@
                 <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
             </ng-container>
 
+            <!-- Observacion Column -->
+            <ng-container matColumnDef="observacion">
+                <th mat-header-cell *matHeaderCellDef style="width: 250px;"> Observación </th>
+                <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -100,5 +106,28 @@
             </tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+</ng-template>
+
+<ng-template #modalRechazo>
+    <div class="p-3 mat-elevation-z8" *ngIf="!enableSpinner">
+        <div class="card">
+            <div class="card-header border-0 pb-0">
+                <h1 class="mb-0">Rechazo</h1>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <form [formGroup]="formDeshabilitar" (submit)="submit()">
+                        <div class="form-group"
+                            [ngClass]="{'has-danger' : motivoEliminacion.errors && motivoEliminacion.touched,'has-success': !motivoEliminacion.errors}">
+                            <label for="inputMotivo">Motivo</label>
+                            <textarea rows="10" cols="50" class="form-control" formControlName="motivo"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-github"
+                            [disabled]="formDeshabilitar.invalid">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </ng-template>

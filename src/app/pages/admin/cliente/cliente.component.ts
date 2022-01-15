@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { config } from 'process';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cliente',
@@ -15,7 +16,7 @@ import { config } from 'process';
 })
 export class ClienteComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['position', 'nombres', 'apellidos', 'DNI', 'correo'];
+  displayedColumns: string[] = ['position', 'nombres', 'apellidos', 'DNI', 'correo', 'observacion'];
   clientes: ClientReq[];
   modalRef: BsModalRef;
   enableSpinner: boolean = false;
@@ -23,8 +24,13 @@ export class ClienteComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   inhabilitados = [];
+  formDeshabilitar: FormGroup;
+  idUsuario: number = 0;
 
-  constructor(private nf: NotifierService, private clienteService:ClienteService, private modalService: BsModalService) { }
+  constructor(private nf: NotifierService, private clienteService:ClienteService, 
+    private modalService: BsModalService, private fb: FormBuilder) { 
+      this.initForm();
+    }
 
   ngOnInit(): void {
     this.listar();
@@ -42,17 +48,33 @@ export class ClienteComponent implements OnInit, AfterViewInit {
       })
   }
 
-  inhabilitar(id: number){
+  initForm() {
+    this.formDeshabilitar = this.fb.group({
+      motivo: ['', [Validators.required]]
+    });
+  }
+
+  inhabilitar(id: number, modal: TemplateRef<any>){
+    this.modalRef = this.modalService.show(modal, Object.assign({}, { class: 'modal-dialog-centered' }));
+    this.idUsuario = id;
+  }
+
+  get motivoEliminacion(){
+    return this.formDeshabilitar.get('motivo');
+  }
+
+  submit(){
     if(confirm('Está seguro de inhabilitar?')){
-      this.clienteService.inhabilitar(id)
+      this.clienteService.inhabilitar(this.idUsuario, this.motivoEliminacion.value)
       .subscribe(data=>{
         this.nf.notification("success", {
           'title': 'Eliminación exitosa.',
           'description': 'Se ha deshabilitado correctamente.'
         });
+        this.modalRef.hide();
         this.listar();
       })
-    } 
+    }
   }
 
   habilitar(id: number){
@@ -84,7 +106,8 @@ export class ClienteComponent implements OnInit, AfterViewInit {
           nombres: cli.name,
           apellidos: cli.lastname,
           dni: cli.dni,
-          correo: cli.email
+          correo: cli.email,
+          observacion: cli.observation
         });
       });
       this.dataSource.data = elementos;

@@ -21,11 +21,11 @@ export class ClienteService {
     return this.http.get<ClientReq[]>(url, { headers: { 'x-token': this.ls.getData('token') } });
   }
 
-  inhabilitar(id2: number) {
+  inhabilitar(id2: number, motivo: string) {
     const id = id2;
     const state = false;
     const url = `${environment.API_SUBASTA}/api/cliente/eliminar`;
-    return this.http.put<ClientReq[]>(url, { id, state }, { headers: { 'x-token': this.ls.getData('token') } });
+    return this.http.put<ClientReq[]>(url, { id, state, motivo }, { headers: { 'x-token': this.ls.getData('token') } });
   }
 
   habilitar(id2: number) {
