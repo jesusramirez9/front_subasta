@@ -18,7 +18,7 @@
         <div class="d-flex justify-content-center mt-4" *ngIf="enableSpinner">
             <mat-spinner diameter="60"></mat-spinner>
         </div>
-        <div class="text-left mt-3" *ngIf="customers.length != 0">
+        <div class="text-left my-3" *ngIf="customers.length != 0">
             <button (click)="generatePdf()" class="btn font-5 btn-primary">Generar Reporte PDF</button>
         </div>
         <div class="p-3 mat-elevation-z8 mb-5" *ngIf="!enableSpinner" [class.mt-5]="customers.length == 0">

@@ -6,7 +6,6 @@ import { ClienteService } from 'src/app/services/cliente.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { config } from 'process';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -27,21 +26,21 @@ export class ClienteComponent implements OnInit, AfterViewInit {
   formDeshabilitar: FormGroup;
   idUsuario: number = 0;
 
-  constructor(private nf: NotifierService, private clienteService:ClienteService, 
-    private modalService: BsModalService, private fb: FormBuilder) { 
-      this.initForm();
-    }
+  constructor(private nf: NotifierService, private clienteService: ClienteService,
+    private modalService: BsModalService, private fb: FormBuilder) {
+    this.initForm();
+  }
 
   ngOnInit(): void {
     this.listar();
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.sort = this.sort;
   }
 
-  listar(){
+  listar() {
     this.clienteService.listar()
       .subscribe(data => {
         this.clientes = data['user'];
@@ -54,40 +53,40 @@ export class ClienteComponent implements OnInit, AfterViewInit {
     });
   }
 
-  inhabilitar(id: number, modal: TemplateRef<any>){
+  inhabilitar(id: number, modal: TemplateRef<any>) {
     this.modalRef = this.modalService.show(modal, Object.assign({}, { class: 'modal-dialog-centered' }));
     this.idUsuario = id;
   }
 
-  get motivoEliminacion(){
+  get motivoEliminacion() {
     return this.formDeshabilitar.get('motivo');
   }
 
-  submit(){
-    if(confirm('Está seguro de inhabilitar?')){
+  submit() {
+    if (confirm('Está seguro de inhabilitar?')) {
       this.clienteService.inhabilitar(this.idUsuario, this.motivoEliminacion.value)
-      .subscribe(data=>{
-        this.nf.notification("success", {
-          'title': 'Eliminación exitosa.',
-          'description': 'Se ha deshabilitado correctamente.'
-        });
-        this.modalRef.hide();
-        this.listar();
-      })
+        .subscribe(data => {
+          this.nf.notification("success", {
+            'title': 'Eliminación exitosa.',
+            'description': 'Se ha deshabilitado correctamente.'
+          });
+          this.modalRef.hide();
+          this.listar();
+        })
     }
   }
 
-  habilitar(id: number){
-    if(confirm('Está seguro de habilitar?')){
+  habilitar(id: number) {
+    if (confirm('Está seguro de habilitar?')) {
       this.clienteService.habilitar(id)
-      .subscribe(data=>{
-        this.nf.notification("success", {
-          'title': 'Habilitación exitosa.',
-          'description': 'Se ha habilitado correctamente.'
-        });
-        this.listar();
-      })
-    } 
+        .subscribe(data => {
+          this.nf.notification("success", {
+            'title': 'Habilitación exitosa.',
+            'description': 'Se ha habilitado correctamente.'
+          });
+          this.listar();
+        })
+    }
   }
 
   verTabla(template: TemplateRef<any>) {
@@ -98,8 +97,8 @@ export class ClienteComponent implements OnInit, AfterViewInit {
   listarInhabilitados(): void {
     this.enableSpinner = true;
     this.clienteService.listarInhabilitados().subscribe((data: any) => {
-       this.enableSpinner = false;
-       let elementos = [];
+      this.enableSpinner = false;
+      let elementos = [];
       data.user.forEach((cli, index) => {
         elementos.push({
           position: index + 1,

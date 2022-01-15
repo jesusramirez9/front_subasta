@@ -71,7 +71,7 @@ export class HistorialSubastasComponent implements OnInit, AfterViewInit {
 
   generatePdf() {
     const documentDefinition = this.getDocumentDefinition();
-    pdfMake.createPdf(documentDefinition).download();
+    pdfMake.createPdf(documentDefinition).download('ReporteSubastas.pdf');
   }
 
   getDocumentDefinition() {
