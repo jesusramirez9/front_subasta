@@ -14,7 +14,7 @@
             Categoría
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a *ngFor="let cat of categories" class="dropdown-item" (click)="goToCatalog(cat)">{{cat.name}}</a>
+            <a *ngFor="let cat of categories" class="dropdown-item cursor_pointer" (click)="goToCatalog(cat)">{{cat.name}}</a>
           </div>
         </li>
       </ul>

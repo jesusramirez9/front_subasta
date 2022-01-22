@@ -1,9 +1,10 @@
 <div class="">
     <div class="card card-detalle mb-3">
         <div class="card-header bg-warning">
-            <h4 class="card-titulo">Cierra en
+            <h4 class="card-titulo" *ngIf="!flagTerminado">Cierra en
                 <app-timer-component [endDate]="endAuction" [endDay]="endDay"></app-timer-component>
             </h4>
+            <h4 class="card-titulo" *ngIf="flagTerminado">Subasta Terminada</h4>
             <!-- <p class="card-subtitulo">Todavía no has pujado por este lote.</p> -->
         </div>
         <div class="card-body py-3">

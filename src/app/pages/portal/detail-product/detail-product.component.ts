@@ -49,18 +49,20 @@ export class DetailProductComponent implements OnInit {
   vendedorApellido: string;
   calificacion: number[] = [];
   precioBase: number;
-  subasta:any;
+  subasta: any;
   idSubasta: string;
   endAuction: any;
   endDayAuction: any;
+  loading: boolean = true;
+  stateSubasta: string = "";
 
-  constructor(private activatedRoute:ActivatedRoute, private clienteService: ClienteService, private subastaService: SubastaService) {
+  constructor(private activatedRoute: ActivatedRoute, private clienteService: ClienteService, private subastaService: SubastaService) {
     this.activatedRoute.params.subscribe(data => {
       this.idSubasta = data['idSubasta'];
       this.obtenerSubasta(this.idSubasta);
     });
   }
-  
+
   ngOnInit(): void {
     this.clienteService.obtenerCalificacionVendendor(this.idSubasta).subscribe(data => {
       this.calificacion = Array(data['promedio']);
@@ -68,17 +70,21 @@ export class DetailProductComponent implements OnInit {
   }
 
   obtenerSubasta(id: string) {
-    this.subastaService.obtenerSubasta(id) 
-      .subscribe(data => {
-        this.nombreProducto = data['subasta'].producto['name'];
-        this.imagenesProducto = data['subasta'].producto['imgs'];
-        this.vendedorNombre = data['subasta'].vendedor['name'];
-        this.vendedorApellido = data['subasta'].vendedor['lastname'];
-        this.precioBase = data['subasta'].precio_base;
-        this.endAuction = data['subasta'].hora_fin;
-        this.endDayAuction = data['subasta'].fecha_fin;
+    this.subastaService.obtenerSubasta(id)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.nombreProducto = data.subasta.producto.name;
+        this.imagenesProducto = data.subasta.producto.imgs;
+        this.vendedorNombre = data.subasta.vendedor.name;
+        this.vendedorApellido = data.subasta.vendedor.lastname;
+        this.precioBase = data.subasta.precio_base;
+        this.endAuction = data.subasta.hora_fin;
+        this.endDayAuction = data.subasta.fecha_fin;
         this.subasta = data;
-      })
+        this.loading = false;
+        this.stateSubasta = data.subasta.estado;
+      });
+
   }
 
   //pasarle la categoria de la subasta que esta actuaelemnte para que me lsita las subastas de esa categoria y mostrarlas en el 

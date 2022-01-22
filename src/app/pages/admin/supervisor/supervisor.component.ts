@@ -21,37 +21,37 @@ export class SupervisorComponent implements OnInit {
   categorias: Categoria[];
 
   isReadonly: boolean;
-  
-  constructor(private fb: FormBuilder, private nf: NotifierService, private router:Router, private supervisorService:SupervisorService, private categoriaService:CategoriaService) {
+
+  constructor(private fb: FormBuilder, private nf: NotifierService, private router: Router, private supervisorService: SupervisorService, private categoriaService: CategoriaService) {
     this.initForm();
-   }
+  }
 
   ngOnInit(): void {
     this.listar();
     this.obtenerCategoria();
   }
 
-  get email(){
+  get email() {
     return this.registroSupervisorForm.get('email');
   }
 
-  get password(){
+  get password() {
     return this.registroSupervisorForm.get('password');
   }
 
-  get name(){
+  get name() {
     return this.registroSupervisorForm.get('name');
   }
 
-  get lastname(){
+  get lastname() {
     return this.registroSupervisorForm.get('lastname');
   }
 
-  get dni(){
+  get dni() {
     return this.registroSupervisorForm.get('dni');
   }
 
-  get category(){
+  get category() {
     return this.registroSupervisorForm.get('category');
   }
 
@@ -61,87 +61,96 @@ export class SupervisorComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
-      dni: ['', Validators.compose([ Validators.required, Validators.pattern('[0-9]{8}')])],
+      dni: ['', [Validators.required, Validators.maxLength(8), Validators.minLength(8)], Validators.pattern("[1-9]")],
       category: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
 
-  validaPasswordCondicional1(){
-    this.isReadonly =true;
+  validaPasswordCondicional1() {
+    this.isReadonly = true;
     this.password.setValidators(null);
     this.password.updateValueAndValidity();
   }
 
-  validaPasswordCondicional2(){
-    this.isReadonly =false;
+  validarDni(evento: any) {
+    if (evento.charCode >= 48 && evento.charCode <= 57) {
+      return true;
+    }
+    return false;
+  }
+
+  validaPasswordCondicional2() {
+    this.isReadonly = false;
     this.password.setValidators(Validators.required);
     this.password.updateValueAndValidity();
   }
 
-  submit(){
-    if(confirm('Está seguro de grabar?')){
+  submit() {
+    if (confirm('Está seguro de grabar?')) {
       this.supervisorService.registrar(this.registroSupervisorForm.value)
-      .subscribe(data=>{
-        this.nf.notification("success", {
-          'title': 'Registro exitoso.',
-          'description': 'Se ha registrado correctamente.'
-        });
-        this.listar();
-        this.limpiar();
-        this.validaPasswordCondicional2();
-      })
+        .subscribe(data => {
+          this.nf.notification("success", {
+            'title': 'Registro exitoso.',
+            'description': 'Se ha registrado correctamente.'
+          });
+          this.listar();
+          this.limpiar();
+          this.validaPasswordCondicional2();
+        })
     }
   }
 
-  listar(){
+  listar() {
     this.supervisorService.listar()
       .subscribe(data => {
         this.supervisores = data['user'];
       })
   }
 
-  actualizar(supervisor: Supervisor){
+  actualizar(supervisor: Supervisor) {
     this.validaPasswordCondicional1();
-    this.registroSupervisorForm.patchValue({id: supervisor._id.toString(), email: supervisor.email.toString(), name: supervisor.name.toString(),
-     lastname: supervisor.lastname.toString(), dni: supervisor.dni.toString(), category: supervisor.category.toString()})
+    this.registroSupervisorForm.patchValue({
+      id: supervisor._id.toString(), email: supervisor.email.toString(), name: supervisor.name.toString(),
+      lastname: supervisor.lastname.toString(), dni: supervisor.dni.toString(), category: supervisor.category.toString()
+    })
   }
 
-  inhabilitar(id: string){
-    if(confirm('Está seguro de inhabilitar?')){
+  inhabilitar(id: string) {
+    if (confirm('Está seguro de inhabilitar?')) {
       this.supervisorService.inhabilitar(id)
-      .subscribe(data=>{
-        this.nf.notification("success", {
-          'title': 'Eliminación exitosa.',
-          'description': 'Se ha deshabilitado correctamente.'
-        });
-        this.listar();
-      })
-    } 
+        .subscribe(data => {
+          this.nf.notification("success", {
+            'title': 'Eliminación exitosa.',
+            'description': 'Se ha deshabilitado correctamente.'
+          });
+          this.listar();
+        })
+    }
   }
 
-  habilitar(id: string){
-    if(confirm('Está seguro de habilitar?')){
+  habilitar(id: string) {
+    if (confirm('Está seguro de habilitar?')) {
       this.supervisorService.habilitar(id)
-      .subscribe(data=>{
-        this.nf.notification("success", {
-          'title': 'Habilitación exitosa.',
-          'description': 'Se ha habilitado correctamente.'
-        });
-        this.listar();
-      })
-    } 
+        .subscribe(data => {
+          this.nf.notification("success", {
+            'title': 'Habilitación exitosa.',
+            'description': 'Se ha habilitado correctamente.'
+          });
+          this.listar();
+        })
+    }
   }
 
-  obtenerCategoria(){
+  obtenerCategoria() {
     this.categoriaService.obtenerCategoria()
       .subscribe(data => {
         this.categorias = data['categories'];
       })
   }
 
-  limpiar(){
-    this.registroSupervisorForm.patchValue({id: '', email: '', name: '', lastname: '', dni: '', category: '', password: ''});
+  limpiar() {
+    this.registroSupervisorForm.patchValue({ id: '', email: '', name: '', lastname: '', dni: '', category: '', password: '' });
   }
 
 }

@@ -83,8 +83,8 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-4">
-            <app-info-detail [endAuction]="endAuction" [endDay]="endDayAuction" [idSubasta]="idSubasta" [precioBase]="precioBase" [precioBaseTemporal]="precioBase" typeUser="buyer"></app-info-detail>
+        <div class="col-12 col-md-4" *ngIf="!loading">
+            <app-info-detail [endAuction]="endAuction" [endDay]="endDayAuction" [idSubasta]="idSubasta" [precioBase]="precioBase" [precioBaseTemporal]="precioBase" typeUser="buyer" [estadoSubasta]="stateSubasta"></app-info-detail>
         </div>
     </div>
 

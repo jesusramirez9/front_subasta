@@ -9,5 +9,11 @@ export class Subasta {
     fecha_fin?:any;
     precio_base?:any;
     precio_pagado?:any;
-    
+    hora_fin?:string;
+    hora_inicio?:string;
+    participantes?: [];
+    precio_minimo?: any;
+    producto?: any;
+    pujas?: [];
+    vendedor?: any;
 }
